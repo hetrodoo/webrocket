@@ -1,0 +1,32 @@
+{
+  "name": "webrocket",
+  "version": "1.0.0",
+  "description": "WebRocket is a wrapper for WebSockets, its purpose is to standardize the Websockets usage. It works just like restful APIs but there is no client nor server; both sides are transceivers.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node-dev example/index.js",
+    "lint": "eslint .",
+    "test:watch": "mocha --watch",
+    "test": "mocha"
+  },
+  "keywords": [
+    "WebSockets",
+    "WebSocket",
+    "Restful",
+    "Api"
+  ],
+  "author": "hetrodo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0",
+    "ws": "^8.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.3",
+    "eslint": "8.22.0",
+    "mocha": "^10.1.0",
+    "node-dev": "^7.4.3",
+    "nodemon": "^2.0.20"
+  }
+}
