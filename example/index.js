@@ -1,13 +1,16 @@
-const {WebRocket, WebRocketMethod} = require("../src");
-const ExampleAdapter = require("./ExampleAdapter");
+const {WebRocket, WebRocketMethod, TestHandler} = require("../src");
 
-const send = (data) => {
-    ExampleAdapter.onReceive(data);
-};
+const clientHandler = TestHandler();
+const serverHandler = TestHandler();
 
-const webRocket = new WebRocket({
-    send,
-    handler: ExampleAdapter
+const client = new WebRocket({
+    send: (data) => serverHandler.onReceive(data),
+    handler: clientHandler
+});
+
+const server = new WebRocket({
+    send: (data) => clientHandler.onReceive(data),
+    handler: serverHandler
 });
 
 (async () => {
@@ -17,33 +20,33 @@ const webRocket = new WebRocket({
         age: "19"
     };
 
-    webRocket.on(WebRocketMethod.get, "v1/entity", (request, respond) => {
+    server.on(WebRocketMethod.get, "v1/entity", (request, respond) => {
         respond({
             msg: "Get Ok"
         });
     });
 
-    webRocket.on(WebRocketMethod.post, "v1/entity", (request, respond) => {
+    server.on(WebRocketMethod.post, "v1/entity", (request, respond) => {
         respond({
             msg: "Post Ok"
         });
     });
 
-    webRocket.on(WebRocketMethod.put, "v1/entity", (request, respond) => {
+    server.on(WebRocketMethod.put, "v1/entity", (request, respond) => {
         respond({
             msg: "Put Ok"
         });
     });
 
-    webRocket.on(WebRocketMethod.delete, "v1/entity", (request, respond) => {
+    server.on(WebRocketMethod.delete, "v1/entity", (request, respond) => {
         respond({
             msg: "Delete Ok"
         });
     });
 
-    console.log("get:", await webRocket.get("v1/entity"));
-    console.log("post:", await webRocket.post("v1/entity", sampleData));
-    console.log("put:", await webRocket.put("v1/entity", sampleData));
-    console.log("delete:", await webRocket.delete("v1/entity"));
+    console.log("get:", await client.get("v1/entity"));
+    console.log("post:", await client.post("v1/entity", sampleData));
+    console.log("put:", await client.put("v1/entity", sampleData));
+    console.log("delete:", await client.delete("v1/entity"));
 
 })().catch(console.error);
