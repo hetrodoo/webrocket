@@ -98,10 +98,6 @@ class WebRocket {
 
         routes.delete(route);
     }
-
-    getRoutesFor(method) {
-        return [...this._callbackMap.get(method).keys()];
-    }
 }
 
 module.exports = WebRocket;

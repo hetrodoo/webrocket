@@ -21,6 +21,4 @@ export default class WebRocket {
     public on(method: WebRocketMethod, route: string, callback: Listener): void;
 
     public removeListener(method: WebRocketMethod, route: string): void;
-
-    public getRoutesFor(method: WebRocketMethod): string[];
 }
