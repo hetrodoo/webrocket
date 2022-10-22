@@ -1,6 +1,8 @@
 class TestAdapter {
-    listeners = [];
-    targetAdapter = undefined;
+    constructor() {
+        this.listeners = [];
+        this.targetAdapter = undefined;
+    }
 
     attach(adapter) {
         this.targetAdapter = adapter;

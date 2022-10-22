@@ -3,8 +3,8 @@
 const webSocketServer = require('express');
 const { createServer } = require('http');
 const { WebSocketServer } = require('ws');
-const {WebRocket, WebRocketMethod} = require("../src");
-const WebSocketAdapter = require("../src/WebSocketAdapter");
+const {WebRocket, WebRocketMethod} = require('../src');
+const WebSocketAdapter = require('../src/WebSocketAdapter');
 
 const app = webSocketServer();
 
@@ -15,11 +15,11 @@ wss.on('connection', function (ws) {
     const clientAdapter = new WebSocketAdapter(ws);
     const webRocket = new WebRocket(clientAdapter);
 
-    webRocket.on(WebRocketMethod.get, "v1/test", (request, respond) => {
-        respond("Ok from server.");
+    webRocket.on(WebRocketMethod.get, 'v1/test', (request, respond) => {
+        respond('Ok from server.');
     });
 
-    webRocket.get("v1/test").then(console.log).catch(console.error);
+    webRocket.get('v1/test').then(console.log).catch(console.error);
 
     ws.on('close', () => console.log('Closed.'));
 });

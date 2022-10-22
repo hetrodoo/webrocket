@@ -1,8 +1,6 @@
 module.exports = class WebSocketAdapter {
-    _connection = undefined;
-    listeners = [];
-
     constructor(connection) {
+        this.listeners = [];
         this._connection = connection;
 
         this._connection.on('message', data => {
@@ -18,4 +16,4 @@ module.exports = class WebSocketAdapter {
     subscribe(listener) {
         this.listeners.push(listener);
     }
-}
+};

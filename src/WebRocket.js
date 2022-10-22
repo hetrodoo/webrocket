@@ -1,7 +1,7 @@
 'use strict';
-const {v4: uuidV4} = require("uuid");
-const PayloadType = require("./PayloadType");
-const WebRocketMethod = require("./WebRocketMethod");
+const {v4: uuidV4} = require('uuid');
+const PayloadType = require('./PayloadType');
+const WebRocketMethod = require('./WebRocketMethod');
 
 async function makeRequest(method, route, data, webRocket) {
     const uuid = uuidV4(null, null, null);
@@ -9,7 +9,7 @@ async function makeRequest(method, route, data, webRocket) {
     const returnPromise = new Promise((resolve, reject) => {
         const timeoutId = setTimeout(() => {
             webRocket._waitMap.delete(uuid);
-            reject("Request Timed out.");
+            reject('Request Timed out.');
         }, webRocket._timeout);
 
         const release = (data) => {
