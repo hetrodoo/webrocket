@@ -43,7 +43,7 @@ class WebRocket {
             this._callbackMap.set(value, new Map());
         });
 
-        this._adapter.handler.on('data', (data) => {
+        this._adapter.subscribe((data) => {
             if (!data.uuid || data.type !== PayloadType.request || !this._callbackMap.has(data.method))
                 return;
 
@@ -62,7 +62,7 @@ class WebRocket {
                 });
             });
         });
-        this._adapter.handler.on('data', (data) => {
+        this._adapter.subscribe((data) => {
             if (!data.uuid || data.type !== PayloadType.response || !this._waitMap.has(data.uuid))
                 return;
 
@@ -93,7 +93,7 @@ class WebRocket {
     removeListener(method, route) {
         const routes = this._callbackMap.get(method);
 
-        if(!routes.has(route))
+        if (!routes.has(route))
             return;
 
         routes.delete(route);

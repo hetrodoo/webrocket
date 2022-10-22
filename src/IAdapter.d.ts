@@ -1,7 +1,9 @@
+import IWebRocketResponse from "./IWebRocketResponse";
 import IWebRocketRequest from "./IWebRocketRequest";
-import IEventHandler from "./IEventHandler";
+
+export type Listener = (data: IWebRocketResponse<unknown> | IWebRocketRequest) => void;
 
 export default interface IAdapter {
     send: (message: IWebRocketRequest) => void;
-    handler: IEventHandler;
+    subscribe: (listener: Listener) => void;
 }

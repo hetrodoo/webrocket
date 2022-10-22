@@ -1,10 +1,10 @@
 'use strict';
 const WebRocket = require("./WebRocket");
 const WebRocketMethod = require("./WebRocketMethod");
-const TestHandler = require("./TestHandler");
+const TestAdapter = require("./TestAdapter");
 
 module.exports = {
     WebRocket,
     WebRocketMethod,
-    TestHandler
+    TestAdapter
 };

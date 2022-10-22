@@ -2,36 +2,39 @@ const {describe, it} = require("mocha");
 const {noop} = require("mocha/lib/utils");
 const {expect} = require("chai");
 const isEqual = require("lodash/isEqual");
-const {WebRocket, WebRocketMethod, TestHandler} = require("../src");
+const {WebRocket, WebRocketMethod, TestAdapter} = require("../src");
 
-describe("WebRocket Index", function () {
-    const payload = Object.freeze({
-        username: "John",
-        surename: "Doe",
+const buildData = () => {
+    return {
+        username: "John Doe",
         age: "19"
-    });
+    };
+};
+
+const buildTestSubject = () => {
+    const clientAdapter = new TestAdapter();
+    const serverAdapter = new TestAdapter();
+
+    clientAdapter.attach(serverAdapter);
+    serverAdapter.attach(clientAdapter);
+
+    const client = new WebRocket(clientAdapter, 25);
+    const server = new WebRocket(serverAdapter, 25);
+
+    return {client, server};
+};
+
+describe("WebRocket", function () {
     const route = '/v1/example/route';
-    const clientAdapter = TestHandler();
-    const serverAdapter = TestHandler();
+    let payload;
+    let server;
+    let client;
 
-    const client = new WebRocket({
-        send: (data) => serverAdapter.onReceive(data),
-        handler: clientAdapter
-    }, 25);
-
-    const server = new WebRocket({
-        send: (data) => clientAdapter.onReceive(data),
-        handler: serverAdapter
-    }, 25);
-
-    beforeEach(() => {
-        clientAdapter.reset();
-        serverAdapter.reset();
-
-        Object.values(WebRocketMethod).forEach(value => {
-            client.getRoutesFor(value).forEach(route => client.removeListener(value, route));
-            server.getRoutesFor(value).forEach(route => server.removeListener(value, route));
-        });
+    beforeEach(function () {
+        let {server: newServer, client: newClient} = buildTestSubject();
+        payload = buildData();
+        server = newServer;
+        client = newClient;
     });
 
     it('Should timeout.', async function () {
