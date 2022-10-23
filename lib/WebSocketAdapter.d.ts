@@ -1,9 +1,9 @@
-import {WebSocket} from "ws";
+import IWebSocket from "./IWebSocket";
 import IAdapter, {Listener} from "./IAdapter";
 import IWebRocketRequest from "./IWebRocketRequest";
 
 export default class WebSocketAdapter implements IAdapter {
-    constructor(connection: WebSocket);
+    constructor(connection: IWebSocket);
 
     send(message: IWebRocketRequest): void;
 
