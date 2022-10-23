@@ -1,13 +1,15 @@
-const {describe, it} = require("mocha");
-const {noop} = require("mocha/lib/utils");
-const {expect} = require("chai");
-const isEqual = require("lodash/isEqual");
-const {WebRocket, WebRocketMethod, TestAdapter} = require("../src");
+const {describe, it} = require('mocha');
+const {noop} = require('mocha/lib/utils');
+const {expect} = require('chai');
+const isEqual = require('lodash/isEqual');
+const WebRocket = require('../lib/WebRocket');
+const TestAdapter = require('./TestAdapter');
+const WebRocketMethod = require('../lib/WebRocketMethod');
 
 const buildData = () => {
     return {
-        username: "John Doe",
-        age: "19"
+        username: 'John Doe',
+        age: '19'
     };
 };
 
@@ -24,7 +26,7 @@ const buildTestSubject = () => {
     return {client, server};
 };
 
-describe("WebRocket", function () {
+describe('WebRocket', function () {
     const route = '/v1/example/route';
     let payload;
     let server;
