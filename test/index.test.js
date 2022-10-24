@@ -90,4 +90,18 @@ describe('WebRocket', function () {
 
         expect(requestFailed).to.be.false;
     });
+
+    it('Should receive query params.', async function () {
+        const query = '?key=value';
+        const parsedQuery = {key: 'value'};
+        let match = false;
+
+        server.on(WebRocketMethod.get, route, (request, respond) => {
+            match = isEqual(request.data, parsedQuery);
+            respond({});
+        });
+
+        await client.get(`${route}${query}`);
+        expect(match).to.be.true;
+    });
 });
