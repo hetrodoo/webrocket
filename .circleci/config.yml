@@ -31,4 +31,8 @@ jobs:
 workflows:
   build:
     jobs:
-      - qa
+      - qa:
+          filters:
+            branches:
+              only:
+                - master
