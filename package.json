@@ -1,6 +1,6 @@
 {
   "name": "@hetrodo/webrocket",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "WebRocket is a framework for WebSockets that create an abstraction on top of WebSockets just like http servers are on top of TCP/IP servers.",
   "main": "lib/WebRocket.js",
   "repository": {
@@ -40,8 +40,6 @@
     "eslint": "8.22.0",
     "lodash": "^4.17.21",
     "mocha": "^10.1.0",
-    "node-dev": "^7.4.3",
-    "nodemon": "^2.0.20",
     "nyc": "^15.1.0"
   }
 }
