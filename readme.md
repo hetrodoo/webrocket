@@ -1,5 +1,7 @@
 [![WebRocket Logo](https://storage.googleapis.com/hetrodo-public/WebRocket.png)](https://webrocket.hetrodo.dev)
 
+[![Build status](https://img.shields.io/circleci/build/github/hetrodoo/webrocket/master?label=Lint%2C%20Tests%2C%20100%25%20Coverage)](https://app.circleci.com/pipelines/github/hetrodoo/webrocket)
+
 WebRocket is a framework for WebSockets, its purpose is to create an abstraction on top of WebSockets just like http
 servers are on top of TCP/IP servers.
 
