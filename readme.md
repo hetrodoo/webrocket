@@ -5,6 +5,10 @@ servers are on top of TCP/IP servers.
 
 WebRocket simplify WebSockets usage by creating a rest api like interface.
 
+[Client example project](https://github.com/hetrodoo/webrocket-client-example)
+
+[Server example project](https://github.com/hetrodoo/webrocket-server-example)
+
 ```js
 const WebSocket = require('ws');
 const WebRocket = require('webrocket/lib/WebRocket');
