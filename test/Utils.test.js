@@ -30,6 +30,16 @@ describe('Utils', function () {
     });
 
     it('Should parse comma separated values into arrays', async function () {
+        const route = filterRoute('/v1/test/?array=a,b,c');
+        const parsedQuery = {
+            array: ['a', 'b', 'c']
+        };
+
+        const {params: parsedParams} = parseQueryRoute(route);
+        expect(isEqual(parsedParams, parsedQuery)).to.be.true;
+    });
+
+    it('Should parse comma separated numbers into number arrays', async function () {
         const route = filterRoute('/v1/test/?array=0,1,2');
         const parsedQuery = {
             array: [0, 1, 2]

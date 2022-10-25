@@ -16,5 +16,5 @@ export default class WebRocket {
 
     public on(method: WebRocketMethod, route: string, callback: (request: IWebRocketRequest, respond: (data: unknown) => void) => (Promise<void> | void)): void;
 
-    public removeListener(method: WebRocketMethod, route: string): void;
+    public removeListener(method: WebRocketMethod, route: string): boolean;
 }

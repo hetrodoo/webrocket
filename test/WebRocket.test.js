@@ -51,7 +51,7 @@ describe('WebRocket', function () {
         expect(requestFailed).to.be.true;
     });
 
-    it('Should be able to receive requests.', function () {
+    it('Should be able to receive get requests.', function () {
         let requestReceived = false;
 
         server.on(WebRocketMethod.get, route, (request, respond) => {
@@ -63,7 +63,7 @@ describe('WebRocket', function () {
         expect(requestReceived).to.be.true;
     });
 
-    it('Should match the received data with the ones sent.', function () {
+    it('Should match the received data with the ones sent when posting.', function () {
         let match = false;
 
         server.on(WebRocketMethod.post, route, (request, respond) => {
@@ -73,6 +73,30 @@ describe('WebRocket', function () {
 
         client.post(route, payload).then(noop).catch(noop);
         expect(match).to.be.true;
+    });
+
+    it('Should match the received data with the ones sent when putting.', function () {
+        let match = false;
+
+        server.on(WebRocketMethod.put, route, (request, respond) => {
+            match = isEqual(request.data, payload);
+            respond({});
+        });
+
+        client.put(route, payload).then(noop).catch(noop);
+        expect(match).to.be.true;
+    });
+
+    it('Should be able to receive delete requests.', function () {
+        let requestReceived = false;
+
+        server.on(WebRocketMethod.delete, route, (request, respond) => {
+            requestReceived = true;
+            respond({});
+        });
+
+        client.delete(route).then(noop).catch(noop);
+        expect(requestReceived).to.be.true;
     });
 
     it('Should respond.', async function () {
@@ -103,5 +127,14 @@ describe('WebRocket', function () {
 
         await client.get(`${route}${query}`);
         expect(match).to.be.true;
+    });
+
+    it('Should be able to remove listeners.', function () {
+        server.on(WebRocketMethod.get, route, (request, respond) => respond({}));
+        expect(server.removeListener(WebRocketMethod.get, route)).to.be.true;
+    });
+
+    it('Should not be able to remove listeners.', function () {
+        expect(server.removeListener(WebRocketMethod.get, route)).to.be.false;
     });
 });
