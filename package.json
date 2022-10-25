@@ -1,5 +1,5 @@
 {
-  "name": "webrocket",
+  "name": "@hetrodo/webrocket",
   "version": "1.0.0",
   "description": "WebRocket is a framework for WebSockets that create an abstraction on top of WebSockets just like http servers are on top of TCP/IP servers.",
   "main": "lib/WebRocket.js",
