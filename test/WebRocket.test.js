@@ -4,7 +4,7 @@ const {expect} = require('chai');
 const chai = require('chai');
 const sinon = require('sinon');
 const WebRocket = require('../lib/WebRocket');
-const TestAdapter = require('./TestAdapter');
+const TestAdapter = require('./tools/TestAdapter');
 const WebRocketMethod = require('../lib/WebRocketMethod');
 
 chai.use(require('chai-as-promised'));
