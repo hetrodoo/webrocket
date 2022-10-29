@@ -1,7 +1,7 @@
 const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const sinon = require('sinon');
-const EventEmitter = require('../lib/EventEmitter');
+const {EventEmitter} = require('events');
 const WebSocketAdapter = require('../lib/WebSocketAdapter');
 
 describe('WebSocketAdapter', function () {
