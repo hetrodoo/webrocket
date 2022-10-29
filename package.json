@@ -30,16 +30,18 @@
   },
   "homepage": "https://github.com/hetrodoo/webrocket#readme",
   "dependencies": {
+    "@types/chai-as-promised": "^7.1.5",
+    "chai-as-promised": "^7.1.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.186",
     "@types/node": "^18.11.3",
+    "@types/sinon": "^10.0.13",
     "@types/ws": "^8.5.3",
     "chai": "^4.3.6",
     "eslint": "8.22.0",
-    "lodash": "^4.17.21",
     "mocha": "^10.1.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "sinon": "^14.0.1"
   }
 }

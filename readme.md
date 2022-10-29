@@ -1,7 +1,8 @@
 [![WebRocket Logo](https://storage.googleapis.com/hetrodo-public/WebRocket.png)](https://webrocket.hetrodo.dev)
 
-[![Build status](https://img.shields.io/circleci/build/github/hetrodoo/webrocket/master?label=Lint%2C%20Tests%2C%20100%25%20Coverage)](https://app.circleci.com/pipelines/github/hetrodoo/webrocket)
-[![Downloads](https://img.shields.io/npm/dm/@hetrodo/webrocket?label=Downloads)](https://www.npmjs.com/package/@hetrodo/webrocket)
+[![Build](https://img.shields.io/circleci/build/github/hetrodoo/webrocket/master?label=Pipeline)](https://app.circleci.com/pipelines/github/hetrodoo/webrocket)
+[![License](https://img.shields.io/github/license/hetrodoo/webrocket?color=blue)](https://github.com/hetrodoo/webrocket/blob/master/LICENSE)
+[![Support](https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-yellow)](https://www.buymeacoffee.com/hetrodo)
 
 WebRocket is a framework for WebSockets, its purpose is to create an abstraction on top of WebSockets just like http
 servers are on top of TCP/IP servers.
@@ -76,8 +77,8 @@ yarn add express ws @hetrodo/webrocket
 
 ```js
 const express = require('express');
-const { createServer } = require('http');
-const { WebSocketServer } = require('ws');
+const {createServer} = require('http');
+const {WebSocketServer} = require('ws');
 const WebRocket = require('@hetrodo/webrocket');
 const WebRocketMethod = require('@hetrodo/webrocket/lib/WebRocketMethod');
 const WebSocketAdapter = require('@hetrodo/webrocket/lib/WebSocketAdapter');
@@ -85,7 +86,7 @@ const WebSocketAdapter = require('@hetrodo/webrocket/lib/WebSocketAdapter');
 //Create your WebSocket server
 const app = express();
 const server = createServer(app);
-const wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({server});
 
 wss.on('connection', function (ws) {
     //When a connection established we can instantiate a new WebRocket.

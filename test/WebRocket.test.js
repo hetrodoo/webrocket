@@ -1,10 +1,13 @@
 const {describe, it} = require('mocha');
 const {noop} = require('mocha/lib/utils');
 const {expect} = require('chai');
-const isEqual = require('lodash/isEqual');
+const chai = require('chai');
+const sinon = require('sinon');
 const WebRocket = require('../lib/WebRocket');
 const TestAdapter = require('./TestAdapter');
 const WebRocketMethod = require('../lib/WebRocketMethod');
+
+chai.use(require('chai-as-promised'));
 
 const buildData = () => {
     return {
@@ -39,94 +42,61 @@ describe('WebRocket', function () {
         client = newClient;
     });
 
-    it('Should timeout.', async function () {
-        let requestFailed = false;
+    it('Should not throw', async function () {
+        server.on(WebRocketMethod.get, route, (request, respond) => respond());
+        await client.get(route);
+    });
 
-        try {
-            await client.get(route);
-        } catch (e) {
-            requestFailed = true;
-        }
-
-        expect(requestFailed).to.be.true;
+    it('Should throw a timeout error.', function () {
+        expect(client.get(route)).to.be.rejectedWith('Request Timed out.');
     });
 
     it('Should be able to receive get requests.', function () {
-        let requestReceived = false;
+        const listener = sinon.spy();
 
-        server.on(WebRocketMethod.get, route, (request, respond) => {
-            requestReceived = true;
-            respond({});
-        });
-
+        server.on(WebRocketMethod.get, route, listener);
         client.get(route).then(noop).catch(noop);
-        expect(requestReceived).to.be.true;
+
+        expect(listener.calledOnce).to.be.true;
     });
 
-    it('Should match the received data with the ones sent when posting.', function () {
-        let match = false;
+    it('Should match the payload when posting', function () {
+        const listener = sinon.spy();
 
-        server.on(WebRocketMethod.post, route, (request, respond) => {
-            match = isEqual(request.data, payload);
-            respond({});
-        });
-
+        server.on(WebRocketMethod.post, route, (request) => listener(request.data));
         client.post(route, payload).then(noop).catch(noop);
-        expect(match).to.be.true;
+
+        expect(listener.calledWith(payload)).to.be.true;
     });
 
-    it('Should match the received data with the ones sent when putting.', function () {
-        let match = false;
+    it('Should match the payload when putting.', function () {
+        const listener = sinon.spy();
 
-        server.on(WebRocketMethod.put, route, (request, respond) => {
-            match = isEqual(request.data, payload);
-            respond({});
-        });
-
+        server.on(WebRocketMethod.put, route, (request) => listener(request.data));
         client.put(route, payload).then(noop).catch(noop);
-        expect(match).to.be.true;
+
+        expect(listener.calledWith(payload)).to.be.true;
     });
 
     it('Should be able to receive delete requests.', function () {
-        let requestReceived = false;
+        const listener = sinon.spy();
 
-        server.on(WebRocketMethod.delete, route, (request, respond) => {
-            requestReceived = true;
-            respond({});
-        });
-
+        server.on(WebRocketMethod.delete, route, listener);
         client.delete(route).then(noop).catch(noop);
-        expect(requestReceived).to.be.true;
+
+        expect(listener.calledOnce).to.be.true;
     });
 
-    it('Should respond.', async function () {
-        let requestFailed = false;
+    it('Should be able to receive query params.', async function () {
+        const listener = sinon.spy();
 
         server.on(WebRocketMethod.get, route, (request, respond) => {
-            respond({});
+            listener(request.data);
+            respond();
         });
+        await client.get(`${route}?foo=bar`);
 
-        try {
-            await client.get(route);
-        } catch (e) {
-            requestFailed = true;
-        }
-
-        expect(requestFailed).to.be.false;
-    });
-
-    it('Should receive query params.', async function () {
-        const query = '?key=value';
-        const parsedQuery = {key: 'value'};
-        let match = false;
-
-        server.on(WebRocketMethod.get, route, (request, respond) => {
-            match = isEqual(request.data, parsedQuery);
-            respond({});
-        });
-
-        await client.get(`${route}${query}`);
-        expect(match).to.be.true;
+        expect(listener.calledWith({foo: 'bar'})).to.be.true;
     });
 
     it('Should be able to remove listeners.', function () {
@@ -134,7 +104,7 @@ describe('WebRocket', function () {
         expect(server.removeListener(WebRocketMethod.get, route)).to.be.true;
     });
 
-    it('Should not be able to remove listeners.', function () {
+    it(`Should not be able to remove listeners that don't exist.`, function () {
         expect(server.removeListener(WebRocketMethod.get, route)).to.be.false;
     });
 });

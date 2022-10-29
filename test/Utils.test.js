@@ -1,7 +1,6 @@
 const {describe, it} = require('mocha');
 const {expect} = require('chai');
 const {filterRoute, parseQueryRoute} = require('../lib/Utils');
-const isEqual = require('lodash/isEqual');
 
 describe('Utils', function () {
     it('Should remove leading and trailing slashes.', async function () {
@@ -18,8 +17,8 @@ describe('Utils', function () {
 
         const {route: parsedRoute, params: parsedParams} = parseQueryRoute(fullUrl);
 
-        expect(isEqual(parsedRoute, filterRoute(route))).to.be.true;
-        expect(isEqual(parsedParams, parsedQuery)).to.be.true;
+        expect(parsedRoute).to.be.equal(filterRoute(route));
+        expect(parsedParams).to.be.deep.equal(parsedQuery);
     });
 
     it('Should parse numbers as number types', async function () {
@@ -36,7 +35,7 @@ describe('Utils', function () {
         };
 
         const {params: parsedParams} = parseQueryRoute(route);
-        expect(isEqual(parsedParams, parsedQuery)).to.be.true;
+        expect(parsedParams).to.be.deep.equal(parsedQuery);
     });
 
     it('Should parse comma separated numbers into number arrays', async function () {
@@ -46,6 +45,6 @@ describe('Utils', function () {
         };
 
         const {params: parsedParams} = parseQueryRoute(route);
-        expect(isEqual(parsedParams, parsedQuery)).to.be.true;
+        expect(parsedParams).to.be.deep.equal(parsedQuery);
     });
 });
